@@ -68,7 +68,7 @@
 
 
 -- 11. Mostre os 10 primeiros clientes cadastrados na tabela (considere a data_criacao mais antiga).
-	select * from clientes order by data_conta desc limit 10;
+	select * from clientes order by data_conta limit 10;
 
 
 -- -----------------------------------------------------------------------------
@@ -83,14 +83,14 @@
 -- 13. O cliente "Ian Almeida" (ID 109) mudou-se para 'São Paulo' (atualmente está no Rio de Janeiro).
 -- Atualize o estado e a região dele no banco de dados.
 	update clientes set estado = 'São Paulo' where id_cliente = 109;
-    update clientes set regiao = 'São Paulo' where id_cliente = 109;
+    update clientes set regiao = 'sudeste' where id_cliente = 109;
 	select * from clientes where id_cliente = 109;
     
 -- 14. Todos os filmes do gênero 'Comédia' lançados em 2001 ganharam um desconto.
 -- Atualize o preço de aluguel desses filmes especificamente para 1.50.
 	set sql_safe_updates = 0;
 	update filmes set preco_aluguel = 1.50 where genero = 'comédia'  and ano_lancamento = '2001';  
-	select * from filmes where genero = 'comédia'  and ano_lancamento = '2001';  
+	select * from filmes where genero = 'comédia';  
     
 -- =============================================================================
 -- BLOCO 06: CAÇA AOS ERROS (DEBUGGING)
@@ -104,17 +104,18 @@
 -- Consulta Errada:
 SELECT titulo, genero, ano_lancamento FROM filmes WHERE ano_lancamento 2005 ORDER BY titulo;
 
--- Qual é o erro? __________________________________________________________
+-- Qual é o erro? __um erro de sintaxe faltava um igual entre 2005 e lancamento________________________________________________________
 -- Correção:
-
+SELECT titulo, genero, ano_lancamento FROM filmes WHERE ano_lancamento > 2005 ORDER BY titulo;
 
 
 -- 17. O objetivo era selecionar os clientes da região Sul, mas o comando não retorna nada.
 -- Consulta Errada:
 SELECT nome_cliente, estado FROM clientes WHERE estado = 'Sul';
 
--- Qual é o erro? __________________________________________________________
+-- Qual é o erro? _O erro estava apos o where o certo seria com regiao ao invés de estado_________________________________________________________
 -- Correção:
+SELECT nome_cliente, estado FROM clientes WHERE regiao = 'Sul';
 
 
 
@@ -128,15 +129,17 @@ select * from alugueis;
 -- Qual é o erro? __________________________________________________________
 -- Correção:
 
+SELECT * FROM alugueis WHERE nota is null;
 
+select * from alugueis;
 
 -- 19. O aluno tentou listar os atores, mas deu erro.
 -- Consulta Errada:
 SELECT nome_ator, nacionalidade FROM actor;
 
--- Qual é o erro? __________________________________________________________
+-- Qual é o erro? ___________O nome da tabela esta errado _______________________________________________
 -- Correção:
-
+SELECT nome_ator, nacionalidade FROM atores;
 
 
 -- 20. (PERIGO!) O estagiário tentou atualizar o gênero do filme 'Harry Potter' para 'Fantasia'.
@@ -148,6 +151,10 @@ select * from filmes;
 
 -- Qual é o erro? __________________________________________________________
 -- Correção
+UPDATE filmes SET genero = 'Fantasia'
+where titulo like 'Harry%';
+
+select * from filmes where titulo like 'Harry%';
 
 -- -----------------------------------------------------------------------------
 -- DESAFIO EXTRA (Para quem terminar antes)
@@ -156,3 +163,5 @@ select * from filmes;
 -- 15. Selecione a nota média dada aos filmes nos aluguéis (tabela alugueis), 
 -- mas considere apenas os aluguéis que possuem nota (nota não é nula).
 -- Dica: Use a função AVG() e IS NOT NULL.S
+
+select avg(preco_aluguel) is where 
