@@ -164,4 +164,4 @@ select * from filmes where titulo like 'Harry%';
 -- mas considere apenas os aluguéis que possuem nota (nota não é nula).
 -- Dica: Use a função AVG() e IS NOT NULL.S
 
-select avg(preco_aluguel) is where 
+select avg(preco_aluguel) from alugeis where nota not nuul.s 
